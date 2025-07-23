@@ -2,26 +2,18 @@
 
 require_once __DIR__ . '/app/core/bootstrap.php';
 
-use App\Controllers\ProductController;
+$product   = new App\Controllers\ProductController();
+$dashboard = new App\Controllers\DashboardController();
+$sku = new App\Controllers\SkuController();
 
-$controller = new ProductController();
 
-$request = $_SERVER['REQUEST_URI'];
-switch (parse_url($request, PHP_URL_PATH)) {
-    case '/products':
-        $controller->index();
-        break;
-
-    case '/products/create':
-        $controller->create();
-        break;
-
-    case '/products/delete':
-        $controller->delete();
-        break;
-
-    default:
-        http_response_code(404);
-        require __DIR__ . '/app/views/errors/404.php';
-        break;
-}
+$router = new Router();
+$router->add('GET', '/', fn() => $dashboard->index());
+$router->add("GET", "/products", fn() => $product->index());
+$router->add("POST", "/products/store", fn() => $product->store());
+$router->add("GET", "/products/skus/create/{id}", fn($id) => $sku->create($id));
+$router->add("GET", "/products/sku/edit/{id}", fn($id) => $sku->edit($id));
+$router->add("PUT", "/products/sku/edit", fn($id) => $sku->update());
+$router->add("GET", "/products/skus/manager/{id}", fn($id) => $sku->index($id));
+$router->add("POST", "/products/skus/store", fn() => $sku->store());
+$router->render();

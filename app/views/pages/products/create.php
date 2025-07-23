@@ -1,15 +1,19 @@
-<!-- app/views/produtos/index.php -->
-<?php require_once __DIR__ . '/../layouts/header.php'; ?>
+<?php
+    App\Core\UI::partial('header'); 
+?>
 
 <div class="container">
-    <h1>Novo Produto</h1>
+
+    <h2>Novo Produto</h2>
+
+    <hr>
 
     <div class="row">
         <div class="col-4">
             <form method="POST">
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome do Produto</label>
-                    <input type="text" name="name" class="form-control" id="nome" placeholder="Digite o nome">
+                    <input type="text" name="name" class="form-control" id="name" />
                 </div>
 
                 <div class="mb-3">
@@ -29,4 +33,6 @@
 
 </div>
 
-<?php require_once __DIR__ . '/../layouts/footer.php'; ?>
+<?php
+    App\Core\UI::partial('footer'); 
+?>

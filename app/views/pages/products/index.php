@@ -1,43 +1,106 @@
-<!-- app/views/produtos/index.php -->
-<?php require_once __DIR__ . '/../../layouts/header.php'; ?>
+<?php
+App\Core\UI::partial('header');
+App\Core\Notify::show();
+
+?>
 
 <div class="container">
-    <h1>Lista de Produtos</h1>
-    
-    <a href="/products/create" class="btn btn-primary mb-3">Novo Produto</a>
-    
+
+    <h3><button type="button" class="btn btn-info fw-bold" data-bs-toggle="modal" data-bs-target="#newProduct"><i class="bi bi-plus-circle-dotted"></i> Novo Produto</button> || Meus Produtos</h3>
+    <hr>
+
+    <!-- new product -->
+    <div class="modal fade" id="newProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="products/store" method="POST">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Novo produto</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nome do Produto</label>
+                            <input type="text" name="name" class="form-control" id="name" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="descricao" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="descricao" rows="4" name="describe"
+                                placeholder="Descreva o produto"></textarea>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary fw-bold">Cadastrar Produto</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- new product -->
+
     <table class="table">
-        <thead>
-            <tr>
+        <thead class="table-dark">
+            <tr class="align-middle text-center fw-bold">
                 <th>#</th>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Ações</th>
+                <th class="text-start">produto</th>
+                <th>SKU</th>
+                <th>registro</th>
+                <th>atualização</th>
+                <th>ações</th>
             </tr>
         </thead>
         <tbody>
             <?php
-                $counter = 0;
-                foreach ($products as $product):
-                    $counter++;
-                    $counter = ($counter < 10) ? '0'.$counter : $conter;
-            ?>
-            <tr>
-                <td><?= $counter; ?></td>
-                <td><?= htmlspecialchars($product['name']) ?></td>
-                <td>R$ <?= number_format($product['price'], 2, ',', '.') ?></td>
+
+            $counter = 0;
+            foreach ($products as $product):
+
+                $counter++;
+                $counter = ($counter < 10) ? '0' . $counter : $conter;
+        ?>
+            <tr class="align-middle text-center fw-bold">
+                <td><?=$counter; ?></td>
+                <td class="text-start">
+                    <img src="<?= App\Core\UI::thumb(@$product['sku_image']); ?>" class="img-thumbnail" width="35" height="35" alt="">
+                    <?= $product['product_name']; ?>
+                </td>
                 <td>
-                    <a href="/produtos/editar/<?= $product['id'] ?>" class="btn btn-sm btn-warning">Editar</a>
-                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete-<?=$product['id']; ?>">Excluir</button>
+                    <?php if($product['total_skus'] > 0): ?>
+                    
+                    <button type="button" class="btn">
+                        total <span class="badge text-bg-info"><?=$product['total_skus']; ?></span>
+                    </button>
+
+                    <?php else: ?>
+                    sem SKU. <a href="/products/skus/create/<?= App\Core\UI::encrypt($product['id_product']); ?>" class="btn btn-sm btn-info fw-bold">Novo SKU <i class="bi bi-plus-circle-fill"></i></a>
+                    <?php endif; ?>
+                </td>
+                <td><?=date("d/m/y h:i", strtotime($product['product_created_in'])); ?></td>
+                <td><?=date("d/m/y h:i", strtotime($product['product_updated_in'])); ?></td>
+                <td>
+                    <a href="/products/skus/manager/<?= App\Core\UI::encrypt($product['id_product']); ?>" type="button" class="btn btn-info" title="Gerenciar SKUs de Produto">
+                        <i class="bi bi-boxes"></i>
+                    </a>
+                    <button type="button" class="btn btn-secondary">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#staticBackdropDelete-<?= $product['id_product']; ?>">
+                        <i class="bi bi-trash"></i>
+                    </button>
                 </td>
             </tr>
-            
-            <!-- edit product -->
-            <div class="modal fade" id="staticBackdropDelete-<?=$product['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+
+            <!-- delete product -->
+            <div class="modal fade" id="staticBackdropDelete-<?= $product['id_product']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <form action="products/delete" method="POST">
-                            <input type="hidden" name="product_id" value="<?=App\Core\UI::encrypt($product['id']); ?>" required />
+                            <input type="hidden" name="product_id" value="<?= App\Core\UI::encrypt($product['id_product']); ?>" required />
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="staticBackdropLabel">Excluir produto</h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -53,10 +116,15 @@
                     </div>
                 </div>
             </div>
+            <!-- delete product -->
 
-            <?php endforeach; ?>
+        <?php
+            endforeach;
+        ?>
         </tbody>
     </table>
 </div>
 
-<?php require_once __DIR__ . '/../../layouts/footer.php'; ?>
+<?php
+App\Core\UI::partial('footer');
+?>
