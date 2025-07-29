@@ -7,9 +7,6 @@
     App\Core\Notify::show();
 
     $cart = Cart::all();
-
-    // print_r($_SESSION['cart']);
-
 ?>
 
 <div class="container">

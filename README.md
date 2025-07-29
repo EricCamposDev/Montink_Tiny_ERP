@@ -6,6 +6,10 @@
 
 Sistema ERP compacto desenvolvido com **PHP puro**, **Bootstrap 5.3** e **jQuery**. Ideal para pequenas operações com foco em **gestão de produtos, cupons,  pedidos e estoques**.
 
+Os produtos são distribuidos através de suas variações(SKU), separado preço e saldo de estoque de cada item sku N -> 1 produto.
+
+O projeto foi desenvolvido com o proposito de competir no processo seletivo da montink para uma oportunidade de desenvolvedor backend PHP.
+
 ---
 
 ## 🧬 Pré-requisitos
@@ -66,6 +70,8 @@ O banco é instalado via composer CLI
 composer install-db
 ```
 
+![Modelagem de banco](public/images/tiny-diagram.png)
+
 Apos a instalação e configuração, o ERP está apto para uso.
 
 O servidor pode ser iniciado.
@@ -73,3 +79,34 @@ O servidor pode ser iniciado.
 ```bash
 php -S localhost:8000
 ```
+
+## 📦 Tracking (Webhook de Rastreio de Pedidos)
+
+Esta API permite atualizar o status de pedidos por meio de webhooks personalizados.
+
+### 🔗 Rota
+
+### [POST] /api/order/tracking
+
+
+### 📥 Exemplo de body
+
+```json
+{
+  "code": "20250728230700",
+  "status": "PROCESSANDO"
+}
+```
+### 🧾 Status disponíveis
+
+    PENDENTE
+
+    PROCESSANDO
+
+    ENVIADO
+
+    ENTREGUE
+
+    CANCELADO = se cancelado o pedido é removido.
+
+    DEVOLVIDO
