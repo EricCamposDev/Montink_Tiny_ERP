@@ -31,10 +31,11 @@
                         $title = "Falha";
                     }
     
-                    echo '<div class="alert alert-'.$label.' alert-dismissible fade show" role="alert">
+                    echo '<div class="container"><div class="alert alert-'.$label.' alert-dismissible fade show" role="alert">
                             <strong>'.$title.'</strong> '.$notify['message'].'
+                            <hr>'.$notify['metadata'].'
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>';
+                        </div></div>';
 
 
                 }

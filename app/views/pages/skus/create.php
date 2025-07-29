@@ -20,9 +20,9 @@
                 </div>
 
                 <div class="mb-3 mt-3">
-                    <label for="mask-money" class="form-label">Valor (R$)</label>
+                    <label for="sku-price" class="form-label">Valor (R$)</label>
                     <input type="text" class="form-control" name="price" data-max-digits="15" maxlength="20"
-                        id="mask-money" placeholder="Valor em R$">
+                        id="sku-price" placeholder="Valor em R$">
                 </div>
 
                 <div class="mb-3 mt-3">
@@ -57,3 +57,7 @@
 <?php
     App\Core\UI::partial('footer');
 ?>
+
+<script>
+    document.getElementById('sku-price').addEventListener('input', maskMoney);
+</script>

@@ -8,12 +8,13 @@
 
     <hr>
 
-    <form action="<?=APP_PATH_INDEX; ?>/products/skus/update" method="POST">
+    <form action="<?=APP_PATH_INDEX; ?>/products/sku/edit" method="POST">
         <div class="row">
             <div class="col-4">
 
                 <input type="hidden" name="id_sku" value="<?=App\Core\UI::encrypt($sku_edit['id_sku']); ?>" />
                 <input type="hidden" name="product_id" value="<?=App\Core\UI::encrypt($sku_edit['product_id']); ?>" />
+                <input type="hidden" name="inventory_id" value="<?=App\Core\UI::encrypt($sku_edit['inventory_id']); ?>" />
 
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome de variação</label>

@@ -1,4 +1,4 @@
-
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const formatter = new Intl.NumberFormat('pt-BR', {
@@ -18,8 +18,6 @@
 
             input.value = formatter.format(parseInt(valor) / 100);
         }
-
-        document.getElementById('mask-money').addEventListener('input', maskMoney);
     </script>
 </body>
 </html>

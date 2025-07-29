@@ -8,70 +8,93 @@ use App\Models\Product;
 use App\Core\Notify;
 use App\Core\UI;
 
-class ProductController extends Controller {
-    private $model;
-    
-    public function __construct() {
-        $this->model = new Product();
+class ProductController extends Controller
+{
+    private $repository;
+
+    public function __construct()
+    {
+        $this->repository = new Product();
     }
-    
-    public function index() {
-        $products = $this->model->all();
+
+    public function index()
+    {
+        $products = $this->repository->all();
         $this->view('products/index', ['products' => $products]);
     }
-    
-    public function create() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'name' => $_POST['name'],
-                'describe' => $_POST['describe'] ?? null
-            ];
-            
-            if ($this->model->create($data)) {
-                $this->redirect('/products?success=produto_cadastrado');
-            }else{
-                $this->redirect('/products?failed=produto_nao_cadastrado');
-            }
-        }
-        
+
+    public function create()
+    {
         $this->view('products');
     }
 
     public function store()
     {
-        if(UI::hasPost(['name','describe'])){
+        if (UI::hasPost(['name', 'describe'])) {
 
-            if ($this->model->create($_POST)) {
+            if ($this->repository->create($_POST)) {
                 Notify::add([
                     'request' => true,
                     'statusCode' => 201,
                     'message' => $_POST['name'] . ' registrado.',
                     'metadata' => ''
                 ]);
+            } else {
 
-                $this->redirect("/products");
+                Notify::add([
+                    'request' => false,
+                    'statusCode' => 400,
+                    'message' => $_POST['name'] . ' não foi registrado.',
+                    'metadata' => ''
+                ]);
             }
         }
 
-        Notify::add([
-            'request' => false,
-            'statusCode' => 200,
-            'message' => $_POST['name'] . ' não foi registrado.',
-            'metadata' => ''
-        ]);
 
         $this->redirect("/products");
     }
 
-    public function delete(): void
+    public function update($id)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $id = UI::decrypt($_POST['product_id']);
-            if( $this->model->destroy($id) ){
-                $this->redirect('/products?success=produto_deletado');
-            }
+        $_POST['id'] = UI::decrypt($id);
+        if ($this->repository->update($_POST)) {
+            Notify::add([
+                'request' => true,
+                'statusCode' => 200,
+                'message' => $_POST['name'] . ' atualizado.',
+                'metadata' => ''
+            ]);
+        } else {
+            Notify::add([
+                'request' => false,
+                'statusCode' => 400,
+                'message' => $_POST['name'] . ' não atualizado.',
+                'metadata' => ''
+            ]);
         }
 
-        $this->redirect('/products?failed=produto_nao_deletado');
+        $this->redirect("/products");
+    }
+
+    public function delete($id): void
+    {
+        $id = UI::decrypt($id);
+        if ($this->repository->destroy($id)) {
+            Notify::add([
+                'request' => true,
+                'statusCode' => 200,
+                'message' => 'Produto deletado.',
+                'metadata' => ''
+            ]);
+        } else {
+            Notify::add([
+                'request' => false,
+                'statusCode' => 400,
+                'message' => 'Falha ao deletar produto.',
+                'metadata' => ''
+            ]);
+        }
+
+        $this->redirect('/products');
     }
 }

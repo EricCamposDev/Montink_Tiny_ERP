@@ -45,10 +45,20 @@
             return false;
         }
 
+        public function update(array $data): bool
+        {
+            $stmt = $this->db->prepare("UPDATE skus SET `sku_name` = :name, `sku_describe` = :describe, `sku_price` = :price, `sku_image` = :image WHERE id_sku = :id ");
+            if( $stmt->execute($data) ){
+                return true;
+            }
+
+            return false;
+        }
+
         public function delete($id): bool
         {
             $stmt = $this->db->prepare("DELETE FROM skus WHERE id_sku = :id");
-            if( $stmt->execute($id) ){
+            if( $stmt->execute(['id' => $id]) ){
                 return true;
             }
 

@@ -30,6 +30,12 @@ class Product
 
         return false;
     }
+
+    public function update($data): bool | null
+    {
+        $stmt = $this->db->prepare("UPDATE products SET product_name = :name, product_describe = :describe WHERE id_product = :id");
+        return $stmt->execute($data) ?: null;
+    }
     
     public function getById(int $id): ?array {
         $stmt = $this->db->prepare("SELECT * FROM products LEFT JOIN skus ON skus.product_id = products.id_product LEFT JOIN inventories ON inventories.id_inventory = skus.inventory_id WHERE id_product = :id LIMIT 1");
@@ -39,7 +45,7 @@ class Product
     
     public function destroy(int $id)
     {
-        $stmt = $this->db->prepare("DELETE FROM products WHERE id = :id");
+        $stmt = $this->db->prepare("DELETE FROM products WHERE id_product = :id");
         if( $stmt->execute(['id' => $id]) ){
             return true;
         }
