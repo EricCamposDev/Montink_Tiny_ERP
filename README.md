@@ -22,11 +22,12 @@ O projeto foi desenvolvido com o proposito de competir no processo seletivo da m
 
 ---
 
-## 🔗 Clone do projeto
+## 🔗 Clone do projeto e instale as dependencias
 
 ```bash
 git clone https://github.com/EricCamposDev/Montink_Tiny_ERP
 cd Montink_Tiny_ERP
+composer install
 ```
 
 ---

@@ -9,14 +9,14 @@
         error_reporting(E_ALL);
     }
 
+    $sku = new App\Controllers\SkuController;
+    $order = new App\Controllers\OrderController;
+    $store = new App\Controllers\StoreController;
+    $coupom = new App\Controllers\CouponController;
+    $cartIO = new App\Controllers\CartIOController;
+    $checkout = new App\Controllers\CheckoutController;
     $product   = new App\Controllers\ProductController;
     $dashboard = new App\Controllers\DashboardController;
-    $store = new App\Controllers\StoreController;
-    $sku = new App\Controllers\SkuController;
-    $checkout = new App\Controllers\CheckoutController;
-    $cartIO = new App\Controllers\CartIOController;
-    $coupom = new App\Controllers\CouponController;
-    $order = new App\Controllers\OrderController;
 
     $router = new Router();
     $router->add('GET', '/', fn() => $dashboard->index());

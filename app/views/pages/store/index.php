@@ -44,7 +44,7 @@
                             </div>
                             <div class="card-body text-center">
                                 <h5 class="card-title"><?= $product['product_name'] . ' - ' . $product['sku_name']; ?></h5>
-                                <h6 class="text-dark mb-3 fw-bold">R$ <?= number_format($product['sku_price'], 2); ?></h6>
+                                <h6 class="text-dark mb-3 fw-bold">R$ <?=number_format($product['sku_price'], 2); ?></h6>
                                 
                                 <button class="btn btn-warning fw-bold w-100 cart-shop <?=($showButtonBuy) ? '' : 'd-none'; ?>">
                                     <i class="bi bi-cart-plus me-2"></i> Comprar
