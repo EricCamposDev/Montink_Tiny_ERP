@@ -85,7 +85,7 @@ php -S localhost:8000
 
 Esta API permite atualizar o status de pedidos por meio de webhooks personalizados.
 
-### 🔗 Rota
+### 🔗 Definindo status
 
 ### [POST] /api/order/tracking
 
@@ -98,6 +98,16 @@ Esta API permite atualizar o status de pedidos por meio de webhooks personalizad
   "status": "PROCESSANDO"
 }
 ```
+
+### 📥 Exemplo de resposta
+
+```json
+{
+  "error": false,
+  "message": "status do pedido alterado de PENDENTE para PROCESSANDO"
+}
+```
+
 ### 🧾 Status disponíveis
 1. __PENDENTE__ : Pedido que acabou de ser criado ou aguarda manipulação.
 2. __PROCESSANDO__: pedido e manipulação/sepação e debito de estoque.
@@ -107,4 +117,48 @@ Esta API permite atualizar o status de pedidos por meio de webhooks personalizad
     - <b style="color: orange;">O pedido cancelado é removido do sistema.</b>
 6. __DEVOLVIDO__: o pedido retorna  e tem seus produtos creditados, aguardando uma possivel reenvio através de operação manual.
 
+
+### 🔗 Escalando pedido pelo Fluxo Natural
+
+### [POST] /api/order/tracking/flow
+
+
+### 📥 Exemplo de body
+
+```json
+{
+  "code": "20250728230700"
+}
+```
+### 📥 Exemplo de resposta
+
+```json
+{
+  "error": false,
+  "message": "status do pedido alterado de PROCESSANDO para ENVIADO"
+}
+```
+
+### 📥 Exemplo de body - enviando novamente
+
+```json
+{
+  "code": "20250728230700"
+}
+```
+### 📥 Exemplo de resposta
+
+```json
+{
+  "error": false,
+  "message": "status do pedido alterado de ENVIADO para ENTREGUE"
+}
+```
+
+Utilizando o __tracking flow__ é possivel percorrer todos os status do fluxo natural em ordem com o envio da mesma requisição, sem precisar definir o proximo status.
+
+veja como funciona.
+
 ![Fluxo de pedido - Ciclo de vida](public/images/order-workflow.png)
+
+atualmente a função __tracking flow__ encontra-se em desenvolvimento, prevista para lancamento na versão __0.2.0-rc__.
