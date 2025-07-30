@@ -1,6 +1,21 @@
 <?php
 
 
+    /**
+    * == Montink Tiny ERP ==
+    *
+    * Sistema ERP minimalista desenvolvido em PHP 8.4
+    * para gerenciamento de pedidos, produtos e inventário.
+    *
+    * @author   Eric Camppos <eric.campos.dev@outlook.com>
+    * @copyright Copyright (c) 2025
+    * @license   None License
+    * @version   0.1.0
+    * @link      https://github.com/EricCamposDev/Montink_Tiny_ERP
+    * @package   MontinkTinyERP
+    * @since     2025-07-25
+    */
+
     require_once __DIR__ . '/app/core/bootstrap.php';
 
     if( APP_ENV == "DEV" ){
@@ -19,32 +34,34 @@
     $dashboard = new App\Controllers\DashboardController;
 
     $router = new Router();
-    $router->add('GET', '/', fn() => $dashboard->index());
-    $router->add("GET", "/products", fn() => $product->index());
+
+    $router->add('GET',  "/", fn() => $dashboard->index());
+    $router->add("GET",  "/products", fn() => $product->index());
     $router->add("POST", "/products/store", fn() => $product->store());
     $router->add("POST", "/products/delete/{id}", fn($id) => $product->delete($id));
     $router->add("POST", "/products/update/{id}", fn($id) => $product->update($id));
-    $router->add("GET", "/products/skus/create/{id}", fn($id) => $sku->create($id));
-    $router->add("GET", "/products/sku/edit/{id}", fn($id) => $sku->edit($id));
+    $router->add("GET",  "/products/skus/create/{id}", fn($id) => $sku->create($id));
+    $router->add("GET",  "/products/sku/edit/{id}", fn($id) => $sku->edit($id));
     $router->add("POST", "/products/sku/edit", fn() => $sku->update());
-    $router->add("GET", "/products/skus/manager/{id}", fn($id) => $sku->index($id));
+    $router->add("GET",  "/products/skus/manager/{id}", fn($id) => $sku->index($id));
     $router->add("POST", "/products/skus/store", fn() => $sku->store());
     $router->add("POST", "/products/skus/delete/{id}", fn($id) => $sku->delete($id));
-    $router->add("GET", "/store", fn() => $store->index());
-    $router->add("GET", "/store/cart/clear", fn() => $cartIO->clear());
-    $router->add("POST","/store/cart/add-item", fn() => $cartIO->addItem());
-    $router->add("GET", "/checkout", fn() => $checkout->index());
-    $router->add("GET", "/checkout/remove-coupon", fn() => $cartIO->removeCoupon());
+    $router->add("GET",  "/store", fn() => $store->index());
+    $router->add("GET",  "/store/cart/clear", fn() => $cartIO->clear());
+    $router->add("POST", "/store/cart/add-item", fn() => $cartIO->addItem());
+    $router->add("GET",  "/checkout", fn() => $checkout->index());
+    $router->add("GET",  "/checkout/remove-coupon", fn() => $cartIO->removeCoupon());
     $router->add("POST", "/checkout/apply-coupon", fn() => $cartIO->applyCoupon());
     $router->add("POST", "/checkout/apply-freight", fn() => $cartIO->applyFreight());
     $router->add("POST", "/checkout/create-order", fn() => $order->create());
-    $router->add("GET", "/coupons", fn() => $coupom->index());
-    $router->add("GET", "/coupons/create", fn() => $coupom->create());
-    $router->add("GET", "/coupons/edit/{id}", fn($id) => $coupom->edit($id));
+    $router->add("GET",  "/coupons", fn() => $coupom->index());
+    $router->add("GET",  "/coupons/create", fn() => $coupom->create());
+    $router->add("GET",  "/coupons/edit/{id}", fn($id) => $coupom->edit($id));
     $router->add("POST", "/coupons/edit/{id}", fn($id) => $coupom->update($id));
-    $router->add("GET", "/coupons/delete/{id}", fn($id) => $coupom->delete($id));
+    $router->add("GET",  "/coupons/delete/{id}", fn($id) => $coupom->delete($id));
     $router->add("POST", "/coupons/store", fn() => $coupom->store());
-    $router->add("GET", "/orders", fn() => $order->index());
-    $router->add("GET", "/orders/invoice/{code}", fn($code) => $order->invoice($code));
+    $router->add("GET",  "/orders", fn() => $order->index());
+    $router->add("GET",  "/orders/invoice/{code}", fn($code) => $order->invoice($code));
     $router->add("POST", "/api/order/tracking", fn() => $order->tracking());
+    
     $router->render();

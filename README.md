@@ -99,15 +99,12 @@ Esta API permite atualizar o status de pedidos por meio de webhooks personalizad
 }
 ```
 ### 🧾 Status disponíveis
+1. __PENDENTE__ : Pedido que acabou de ser criado ou aguarda manipulação.
+2. __PROCESSANDO__: pedido e manipulação/sepação e debito de estoque.
+3. __ENVIADO__: pedido enviado pela transportadora.
+4. __ENTREGUE__: pedido entregue pela transportadora.
+5. __CANCELADO__: pedido cancelado e produtos creditados no estoque.
+    - <b style="color: orange;">O pedido cancelado é removido do sistema.</b>
+6. __DEVOLVIDO__: o pedido retorna  e tem seus produtos creditados, aguardando uma possivel reenvio através de operação manual.
 
-    PENDENTE
-
-    PROCESSANDO
-
-    ENVIADO
-
-    ENTREGUE
-
-    CANCELADO = se cancelado o pedido é removido.
-
-    DEVOLVIDO
+![Fluxo de pedido - Ciclo de vida](public/images/order-workflow.png)
